@@ -80,9 +80,32 @@ export function reduceTo(array, callBack) {
     // throw 'Not implemented';
 }
 
-export function sort() {
+export function sort(array, args) {
+    if (array.every((elem) => Number(elem))) {
+        return array.sort((a, b) => a - b)
+    }
+    if (array.every((obj) => Object(obj))) {
+        if (typeof args === 'string') {
+            return array.sort((a, b) => a[args] - b[args]);
+        } else {
+            return array.sort((a, b) => {
+                if (a[args[0]] > b[args[0]]) {
+                    return 1;
+                }
+                if (a[args[0]] < b[args[0]]) {
+                    return -1;
+                }
+                if (a[args[1]] > b[args[1]]) {
+                    return 1;
+                }
+                if (a[args[1]] < b[args[1]]) {
+                    return -1;
+                }
+            })
+        }
+    }
     // TODO:
-    throw 'Not implemented';
+    // throw 'Not implemented';
 }
 
 export function complex() {
