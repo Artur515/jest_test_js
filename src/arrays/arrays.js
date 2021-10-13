@@ -9,9 +9,41 @@ export function mapTo(array, args) {
     // throw 'Not implemented';
 }
 
-export function mapToProfile() {
+export function mapToProfile(array) {
+    const outputList = array.map((profile) => {
+        return Object.defineProperties(
+            {
+                name: profile.name || null,
+                surname: profile.surname || null,
+                fullname:
+                    profile.name || profile.surname
+                        ? `${profile.name ? profile.name : "_"} ${
+                            profile.surname ? profile.surname : "_"
+                        }`
+                        : null,
+                age: profile.age || null,
+            },
+            {
+                isAnonymous: {
+                    get: function () {
+                        if (this.fullname!==null) {
+                            return false;
+                        } else return true;
+                    }},
+                isOld: {
+                    get: function () {
+                        if (this.age<65) {
+                            return false;
+                        } else return true;
+                    },
+                },
+            },
+
+        );
+    });
+    return outputList;
     // TODO:
-    throw 'Not implemented';
+    // throw 'Not implemented';
 }
 
 export function filterBy(array, args) {
