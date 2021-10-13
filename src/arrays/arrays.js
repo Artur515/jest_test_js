@@ -26,19 +26,19 @@ export function mapToProfile(array) {
             {
                 isAnonymous: {
                     get: function () {
-                        if (this.fullname!==null) {
+                        if (this.fullname !== null) {
                             return false;
                         } else return true;
-                    }},
+                    }
+                },
                 isOld: {
                     get: function () {
-                        if (this.age<65) {
+                        if (this.age < 65) {
                             return false;
                         } else return true;
                     },
                 },
             },
-
         );
     });
     return outputList;
@@ -61,7 +61,21 @@ export function filterBy(array, args) {
     // throw 'Not implemented';
 }
 
-export function reduceTo() {
+export function reduceTo(array, callBack) {
+    if (array.every(elem => Number(elem))) {
+        return array.reduce((accumulator, currentValue) => accumulator + currentValue)
+    }
+    if (array.every((obj) => Object(obj))) {
+        if (typeof callBack === 'string') {
+            return array.reduce((accumulator, currentValue) => {
+                return accumulator + currentValue[callBack]
+            }, 0)
+        } else return array.reduce((accum, currentValue) => {
+            accum[0] += currentValue[callBack[0]]
+            accum[1] += currentValue[callBack[1]]
+            return accum
+        }, [0, 0])
+    }
     // TODO:
     // throw 'Not implemented';
 }
