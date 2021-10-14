@@ -15,7 +15,7 @@ export function createCalculator() {
     // TODO:
     // throw 'Not implemented';
 }
-// в моем представлении вот так и как ты думаешь ето правильно,
+// в моем представлении вот так и как ты думаешь это правильно,
 // class CreateCalculator {
 //     constructor(operation = 'init', value = 0) {
 //         this.operation = operation
