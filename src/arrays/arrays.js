@@ -87,28 +87,17 @@ export function sort(array, args) {
     if (array.every((obj) => Object(obj))) {
         if (typeof args === 'string') {
             return array.sort((a, b) => a[args] - b[args]);
-        } else {
-            return array.sort((a, b) => {
-                if (a[args[0]] > b[args[0]]) {
-                    return 1;
-                }
-                if (a[args[0]] < b[args[0]]) {
-                    return -1;
-                }
-                if (a[args[1]] > b[args[1]]) {
-                    return 1;
-                }
-                if (a[args[1]] < b[args[1]]) {
-                    return -1;
-                }
-            })
+        }
+        if (typeof args === 'object') {
+            return array.sort((a, b) => (a[args[0]] > b[args[0]]) ? 1 : (a[args[0]] === b[args[0]]) ? ((a[args[1]] > b[args[1]['age']]) ? 1 : -1) : -1)
         }
     }
     // TODO:
     // throw 'Not implemented';
 }
 
-export function complex() {
+export function complex(array,args) {
+    return array.filter((elem) => args[0].callback(elem.age)).map((elem) => elem.total)
     // TODO:
-    throw 'Not implemented';
+    // throw 'Not implemented';
 }
