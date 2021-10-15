@@ -1,9 +1,11 @@
-export function counter() {
-    let counter = 0;
-    return function () {
+export const counter = (function () {
+    let counter = 0
+    return function (num = 0) {
+        counter += num
         return counter++
-    };
-}
+    }
+})()
+
 
 export function callableMultiplier() {
     // TODO:
