@@ -7,9 +7,34 @@ export const counter = (function () {
 })()
 
 
-export function callableMultiplier() {
-    // TODO:
-    throw 'Not implemented';
+export function callableMultiplier(number = null) {
+    let total = number
+
+    function multiple() {
+        if (arguments.length) {
+            let arr = Array.prototype.slice.call(arguments)
+            total = total * arrayAdder(arr);
+            return multiple;
+        } else {
+            return total;
+        }
+    }
+
+    if (arguments.length) {
+        let arr1 = Array.prototype.slice.call(arguments)
+        let myTotal = arrayAdder(arr1);
+        return multiple(myTotal);
+    } else {
+        return multiple();
+    }
+
+    function arrayAdder(arr) {
+        let x = 0;
+        for (let i = 0; i < arr.length; i++) {
+            x = x + arr[i];
+        }
+        return x;
+    }
 }
 
 
