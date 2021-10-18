@@ -80,24 +80,98 @@ export function reduceTo(array, callBack) {
     // throw 'Not implemented';
 }
 
+
 export function sort(array, args) {
     if (array.every((elem) => Number(elem))) {
         return array.sort((a, b) => a - b)
     }
     if (array.every((obj) => Object(obj))) {
-        if (typeof args === 'string') {
-            return array.sort((a, b) => a[args] - b[args]);
-        }
-        if (typeof args === 'object') {
-            return array.sort((a, b) => (a[args[0]] > b[args[0]]) ? 1 : (a[args[0]] === b[args[0]]) ? ((a[args[1]] > b[args[1]['age']]) ? 1 : -1) : -1)
-        }
+        return array.sort((a, b) => {
+            let result
+            if (typeof args === "string") {
+                if (!result) {
+                    if (a[args] > b[args]) {
+                        result = 1
+                    }
+                    if (a[args] < b[args]) {
+                        result = -1
+                    }
+                }
+            } else {
+                args.forEach((elem) => {
+                    if (typeof elem === "string") {
+                        if (!result) {
+                            if (a[elem] > b[elem]) {
+                                result = 1
+                            }
+                            if (a[elem] < b[elem]) {
+                                result = -1
+                            }
+                        }
+                    }
+                    if (typeof elem === 'object') {
+                        if (!result) {
+                            if (a[elem.field] > b[elem.field]) {
+                                result = elem.order === 'desc' ? -1 : 1
+                            }
+                            if (a[elem.field] < b[elem.field]) {
+                                result = elem.order === 'desc' ? 1 : -1
+                            }
+                        }
+                    }
+                })
+            }
+            return result
+        })
+
     }
-    // TODO:
-    // throw 'Not implemented';
+
+// TODO:
+// throw 'Not implemented';
 }
 
-export function complex(array,args) {
-    return array.filter((elem) => args[0].callback(elem.age)).map((elem) => elem.total)
-    // TODO:
-    // throw 'Not implemented';
+export function complex(array, args) {
+    args.forEach((arg) => {
+        if (arg.operation === 'filter') {
+            return array = array.filter(elem => arg.callback(elem[arg.property]))
+        } else if (arg.operation === 'map') {
+            return array = array.map(elem => elem[arg.property])
+        } else if (arg.operation === 'reduce') {
+            return array = array.map(elem => elem[arg.property]).reduce((prev, current) => prev + current)
+        } else if (arg.operation === "sort") {
+            return array = array.sort((a, b) => b - a)
+        }
+    })
+    return array
 }
+
+// export function complex(data, tasks) {
+//     tasks.forEach((task) => {
+//         if (task.operation === "filter") {
+//             data = data.filter((elem) => {
+//                 return task.callback(elem[task.property]);
+//             });
+//             return data;
+//         } else if (task.operation === "map") {
+//             data = data.map((elem) => {
+//                 return elem[task.property];
+//             });
+//             return data;
+//         } else if (task.operation === "reduce") {
+//             data = data
+//                 .map((elem) => {
+//                     return elem[task.property];
+//                 })
+//                 .reduce((prev, curr) => {
+//                     return prev + curr;
+//                 });
+//             return data;
+//         } else if (task.operation === "sort") {
+//             data = data.sort((a, b) => {
+//                 return b - a;
+//             });
+//             return data;
+//         }
+//     });
+//     return data;
+// }

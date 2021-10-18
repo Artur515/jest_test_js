@@ -39,27 +39,39 @@ export function callableMultiplier(number = null) {
 
 
 export function createCalculator(value) {
-    function Calculator(value = 0) {
-        this.value = value
-        this.log = [{operation: 'init', value: this.value}]
+    function Calculator(initValue = 0) {
+
+        this._value = initValue
+
+        Object.defineProperty(this, 'value', {
+            get: function () {
+                return this._value
+            },
+            set: function () {
+            }
+
+        })
+
+        this.log = [{operation: 'init', value: this._value}]
+
         this.add = function (number) {
             this.operation = 'add'
-            this.value = this.value + number
+            this._value = this._value + number
             this.log.push({operation: this.operation, value: number})
         }
         this.subtract = function (number) {
             this.operation = 'subtract'
-            this.value = this.value - number
+            this._value = this._value - number
             this.log.push({operation: this.operation, value: number})
         }
         this.multiply = function (number) {
             this.operation = 'multiply'
-            this.value = this.value * number
+            this._value = this._value * number
             this.log.push({operation: this.operation, value: number})
         }
         this.divide = function (number) {
             this.operation = 'divide'
-            this.value = this.value / number
+            this._value = this._value / number
             this.log.push({operation: this.operation, value: number})
         }
     }
