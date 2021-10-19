@@ -3,22 +3,14 @@ export const counter = (function () {
     const counterWithName = {}
     return function (args1, args2) {
         if (typeof args1 === "undefined") {
-            if (counterWithName.hasOwnProperty("default")) {
-                counterWithName.default++;
-            } else {
-                counterWithName.default = 0;
-            }
+            counterWithName.hasOwnProperty("default") ? counterWithName.default++ : counterWithName.default = 0;
             counter = counterWithName.default;
         }
         if (typeof args1 === "number" && typeof args2 === 'undefined') {
             counter = counterWithName.default = args1
         }
         if (typeof args1 === "string") {
-            if (counterWithName.hasOwnProperty(args1)) {
-                counterWithName[args1]++
-            } else {
-                counterWithName[args1] = 0
-            }
+            counterWithName.hasOwnProperty(args1) ? counterWithName[args1]++ : counterWithName[args1] = 0
             delete counterWithName.default
             counter = counterWithName[args1]
         }
@@ -28,7 +20,6 @@ export const counter = (function () {
         return counter
     }
 })();
-
 
 export function callableMultiplier(...args) {
     if (!args.length) return null;
