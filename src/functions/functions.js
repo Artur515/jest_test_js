@@ -1,10 +1,33 @@
 export const counter = (function () {
-    let counter = 0
-    return function (num = 0) {
-        counter += num
-        return counter++
+    let counter
+    const counterWithName = {}
+    return function (args1, args2) {
+        if (typeof args1 === "undefined") {
+            if (counterWithName.hasOwnProperty("default")) {
+                counterWithName.default++;
+            } else {
+                counterWithName.default = 0;
+            }
+            counter = counterWithName.default;
+        }
+        if (typeof args1 === "number" && typeof args2 === 'undefined') {
+            counter = counterWithName.default = args1
+        }
+        if (typeof args1 === "string") {
+            if (counterWithName.hasOwnProperty(args1)) {
+                counterWithName[args1]++
+            } else {
+                counterWithName[args1] = 0
+            }
+            delete counterWithName.default
+            counter = counterWithName[args1]
+        }
+        if (typeof args1 === "number" && typeof args2 === "string") {
+            counter = counterWithName[args2] = args1
+        }
+        return counter
     }
-})()
+})();
 
 
 export function callableMultiplier(...args) {
